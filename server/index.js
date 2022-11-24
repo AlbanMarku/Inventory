@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const route = require('./route.js');
 
 const app = express();
-const port = 8080;
+const port = process.env.PORT || 8080;
 
 // const { MONGO_USER } = process.env;
 // const { MONGO_PWD } = process.env;

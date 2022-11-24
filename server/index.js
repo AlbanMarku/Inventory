@@ -12,7 +12,7 @@ const port = 8080;
 // const { CLUSTER_ID } = process.env;
 
 app.use(express.static(path.resolve(__dirname, "../client/dist")));
-app.use("/photo", express.static("imgs"));
+// app.use("/photo", express.static("imgs"));
 app.use(express.json({ limit: "1mb", strict: true }));
 
 const dbURI =

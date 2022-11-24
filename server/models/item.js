@@ -8,7 +8,7 @@ const itemSchema = new schema({
         required: true
     },
     imageLink: {
-        type: Buffer,
+        type: String,
         required: true
     }
 }, {timestamps: true});

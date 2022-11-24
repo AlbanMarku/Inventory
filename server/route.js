@@ -1,6 +1,8 @@
 const path = require('path');
 const multer = require("multer");
 const Item = require("./models/item");
+const fireApp = require("./firebase.config");
+const { readFileSync } = require('fs');
 
 const storage = multer.diskStorage({
     destination: function(req,file,cb) {
@@ -19,18 +21,27 @@ const endpoint = app => {
         res.json({ message: '👋 from Express!' });
     });
     
-    app.post("/api/upload", upload.single("image"), (req, res) => {
-        const item = new Item({
-            name: "theName",
-            imageLink: req.file.path
-        });
+    app.post("/api/upload", upload.single("image"), async (req, res) => {
 
-        item.save()
-        .then((result) => {
-            res.send(result);
-            console.log("Saved item");
-        })
-        .catch((err) => console.log(err));
+        const imageRef = fireApp.storage.ref(fireApp.fireStorage, `imgs/${req.file.filename}/`);
+        try {
+            await fireApp.storage.uploadBytesResumable(imageRef, readFileSync(`imgs/${req.file.filename}`));
+            const imageUrl = await fireApp.storage.getDownloadURL(imageRef);
+
+            const item = new Item({
+                name: "theName",
+                imageLink: imageUrl
+            });
+            try {
+                const savedResp = await item.save();
+                res.json({message: savedResp});
+            } catch (err) {
+                console.log(err);
+            }
+
+        } catch(err) {
+            console.log(err)
+        }    
     });
 
     app.get("/api/fetchAll", async (req,res) => {

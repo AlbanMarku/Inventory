@@ -8,7 +8,6 @@ function App() {
   };
 
   const [items, setItems] = useState([]);
-
   const callIt = async () => {
     const response = await fetch('/api/fetchAll');
     const data = await response.json();
@@ -22,7 +21,12 @@ function App() {
         Click me
       </button>
       {items.map((element: FetchImage) => (
-        <p key={element.id}>{element.imageLink}</p>
+        <img
+          key={element.id}
+          src={element.imageLink}
+          alt="product"
+          style={{ width: '500px' }}
+        />
       ))}
     </div>
   );

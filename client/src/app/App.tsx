@@ -1,8 +1,4 @@
-/* eslint-disable no-underscore-dangle */
 import { useState } from 'react';
-
-// TODO: ask nick about: proxy, routers, keys, ts server, eslint server, prettier, loading status from backend.
-// custom id
 
 function App() {
   type FetchImage = {

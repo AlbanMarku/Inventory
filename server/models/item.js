@@ -10,6 +10,10 @@ const itemSchema = new schema({
     imageLink: {
         type: String,
         required: true
+    },
+    id: {
+        type: String,
+        required: true
     }
 }, {timestamps: true});
 

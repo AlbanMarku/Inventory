@@ -1,4 +1,8 @@
+/* eslint-disable no-underscore-dangle */
 import { useState } from 'react';
+
+// TODO: ask nick about: proxy, routers, keys, ts server, eslint server, prettier, loading status from backend.
+// custom id
 
 function App() {
   type FetchImage = {
@@ -8,26 +12,33 @@ function App() {
   };
 
   const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(false);
+
   const callIt = async () => {
+    setLoading(true);
     const response = await fetch('/api/fetchAll');
     const data = await response.json();
-    console.log(data);
     setItems(data);
+    setLoading(false);
   };
+
   return (
     <div className="App">
-      <p>Hello World!</p>
+      <p>{loading.toString()}</p>
       <button type="button" onClick={callIt}>
         Click me
       </button>
-      {items.map((element: FetchImage) => (
-        <img
-          key={element.id}
-          src={element.imageLink}
-          alt="product"
-          style={{ width: '500px' }}
-        />
-      ))}
+      {items.map((element: FetchImage) => {
+        return (
+          <div key={element.id}>
+            <img
+              src={element.imageLink}
+              alt="product"
+              style={{ width: '500px' }}
+            />
+          </div>
+        );
+      })}
     </div>
   );
 }

@@ -4,12 +4,17 @@ module.exports = {
     commonjs: true,
     es2021: true,
   },
-  extends: ['airbnb', 'airbnb/hooks'],
-  overrides: [
+  extends: [
+    "airbnb",
+    "airbnb/hooks",
+    "prettier",
+    "plugin:prettier/recommended",
   ],
+  overrides: [],
   parserOptions: {
-    ecmaVersion: 'latest',
+    ecmaVersion: "latest",
   },
   rules: {
+    "prettier/prettier": "error",
   },
 };

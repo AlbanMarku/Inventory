@@ -1,18 +1,10 @@
 const path = require('path');
 const multer = require('multer');
-const { readFileSync } = require('fs');
 const uniqid = require('uniqid');
 const Item = require('./models/item');
 const fireApp = require('./firebase.config');
 
-const storage = multer.diskStorage({
-  destination(req, file, cb) {
-    cb(null, './imgs');
-  },
-  filename(req, file, cb) {
-    cb(null, file.originalname);
-  },
-});
+const storage = multer.memoryStorage();
 
 const endpoint = (app) => {
   const upload = multer({ storage });
@@ -24,13 +16,10 @@ const endpoint = (app) => {
   app.post('/api/upload', upload.single('image'), async (req, res) => {
     const imageRef = fireApp.storage.ref(
       fireApp.fireStorage,
-      `imgs/${req.file.filename}/`
+      `imgs/${req.file.originalname}/`
     );
     try {
-      await fireApp.storage.uploadBytesResumable(
-        imageRef,
-        readFileSync(`imgs/${req.file.filename}`)
-      );
+      await fireApp.storage.uploadBytesResumable(imageRef, req.file.buffer);
       const imageUrl = await fireApp.storage.getDownloadURL(imageRef);
 
       const item = new Item({

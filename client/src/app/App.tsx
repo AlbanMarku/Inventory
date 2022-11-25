@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 function App() {
   type FetchImage = {
@@ -9,6 +9,7 @@ function App() {
 
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [name, setName] = useState('');
 
   const callIt = async () => {
     setLoading(true);
@@ -16,6 +17,11 @@ function App() {
     const data = await response.json();
     setItems(data);
     setLoading(false);
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log('submitted');
   };
 
   return (
@@ -35,6 +41,18 @@ function App() {
           </div>
         );
       })}
+      <form onSubmit={(e) => handleSubmit(e)}>
+        <label htmlFor="nameInput">
+          Enter item name:
+          <input
+            id="nameInput"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </label>
+        <input type="submit" />
+      </form>
     </div>
   );
 }

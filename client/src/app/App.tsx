@@ -38,25 +38,36 @@ function App() {
     formData.append('image', pic);
     formData.append('name', name);
     setLoading(true);
-    const sentData = await fetch('/api/upload', {
-      method: 'POST',
-      body: formData,
-    });
-    const res = await sentData.json();
-    setLoading(false);
-    alert(res);
+    try {
+      const sentData = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+      const res = await sentData.json();
+      setLoading(false);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
   };
 
   const onSearch: SubmitHandler<SearchInputs> = async (data) => {
     const { name } = data;
 
     setLoading(true);
-    const sentData = await fetch(`/api/search?name=${name}`);
-    const res = await sentData.json();
-    console.log('done');
-    res.forEach((element: Product) => {
-      console.log(element.imageLink);
-    });
+    try {
+      const sentData = await fetch(`/api/search?name=${name}`);
+      const res = await sentData.json();
+      console.log('done');
+      setLoading(false);
+      res.forEach((element: Product) => {
+        console.log(element.imageLink);
+      });
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
   };
 
   return (

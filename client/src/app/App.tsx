@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
-type FetchImage = {
+type Product = {
   name: string;
   imageLink: string;
   id: string;
@@ -11,6 +11,10 @@ type FetchImage = {
 type FormInputs = {
   name: string;
   image: FileList[];
+};
+
+type SearchInputs = {
+  name: string;
 };
 
 function App() {
@@ -34,21 +38,34 @@ function App() {
     formData.append('image', pic);
     formData.append('name', name);
     setLoading(true);
-    await fetch('/api/upload', {
+    const sentData = await fetch('/api/upload', {
       method: 'POST',
       body: formData,
     });
-    console.log('uploaded');
+    const res = await sentData.json();
     setLoading(false);
+    alert(res);
+  };
+
+  const onSearch: SubmitHandler<SearchInputs> = async (data) => {
+    const { name } = data;
+
+    setLoading(true);
+    const sentData = await fetch(`/api/search?name=${name}`);
+    const res = await sentData.json();
+    console.log('done');
+    res.forEach((element: Product) => {
+      console.log(element.imageLink);
+    });
   };
 
   return (
     <div className="App">
       <p>{loading.toString()}</p>
       <button type="button" onClick={callIt}>
-        Click me
+        Get all product images
       </button>
-      {items.map((element: FetchImage) => {
+      {items.map((element: Product) => {
         return (
           <div key={element.id}>
             <img
@@ -70,6 +87,14 @@ function App() {
           <input {...register('image')} id="pictureInput" type="file" />
         </label>
         <button type="submit">submit</button>
+      </form>
+
+      <form onSubmit={handleSubmit(onSearch)}>
+        <label htmlFor="searchInput">
+          Search product
+          <input {...register('name')} id="searchInput" />
+        </label>
+        <button type="submit">Search</button>
       </form>
     </div>
   );

@@ -33,8 +33,8 @@ const endpoint = (app) => {
         id: uniqid('image-'),
       });
       try {
-        const savedResp = await item.save();
-        res.json({ message: savedResp });
+        await item.save();
+        res.json({ message: 'Done uploading.' });
       } catch (err) {
         console.log(err);
       }
@@ -43,8 +43,15 @@ const endpoint = (app) => {
     }
   });
 
+  app.get('/api/search', async (req, res) => {
+    const nameToFind = req.query.name;
+    const items = await Item.find({ name: nameToFind });
+    res.json(items);
+  });
+
   app.get('/api/fetchAll', async (req, res) => {
     const items = await Item.find({});
+    console.log(items);
     res.json(items);
   });
 

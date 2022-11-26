@@ -28,7 +28,7 @@ const endpoint = (app) => {
 
       // Create a new Item entry, includes image url.
       const item = new Item({
-        name: 'theName',
+        name: req.body.name,
         imageLink: imageUrl,
         id: uniqid('image-'),
       });

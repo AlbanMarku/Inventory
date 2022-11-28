@@ -45,37 +45,42 @@ const endpoint = (app) => {
   });
 
   app.post('/api/update', upload.single('image'), async (req, res) => {
-    const imageRef = fireApp.storage.ref(
-      fireApp.fireStorage,
-      `imgs/${req.file.originalname}/`
-    );
-
     try {
+      const imageRef = fireApp.storage.ref(
+        fireApp.fireStorage,
+        `imgs/${req.file.originalname}/`
+      );
       await fireApp.storage.uploadBytesResumable(imageRef, req.file.buffer);
       const imageUrl = await fireApp.storage.getDownloadURL(imageRef);
 
       const item = await Item.find({ name: req.body.name });
-      const imageToDelete = fireApp.storage.ref(
-        fireApp.fireStorage,
-        `imgs/${item[0].filename}`
-      );
-      await fireApp.storage.deleteObject(imageToDelete);
-      Item.findOneAndUpdate(
-        { name: req.body.name },
-        {
-          name: req.body.newName,
-          imageLink: imageUrl,
-          filename: req.file.originalname,
-        },
-        (err) => {
-          if (err) {
-            console.log(err);
-          } else {
-            console.log('updated item');
+      if (item[0]) {
+        const imageToDelete = fireApp.storage.ref(
+          fireApp.fireStorage,
+          `imgs/${item[0].filename}`
+        );
+        await fireApp.storage.deleteObject(imageToDelete);
+
+        Item.findOneAndUpdate(
+          { name: req.body.name },
+          {
+            name: req.body.newName,
+            imageLink: imageUrl,
+            filename: req.file.originalname,
+          },
+          (err) => {
+            if (err) {
+              console.log(err);
+            } else {
+              console.log('updated item');
+              res.json('done');
+            }
           }
-        }
-      );
-      res.json('done');
+        );
+      } else {
+        console.log('There is no item to update.');
+        res.json('there is no item to update');
+      }
     } catch (err) {
       console.log(err);
     }

@@ -17,10 +17,16 @@ type SearchInputs = {
   name: string;
 };
 
+type UpdateInputs = {
+  name: string;
+  newName: string;
+  image: FileList[];
+};
+
 function App() {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { register, handleSubmit } = useForm<SearchInputs>();
+  const { register, handleSubmit } = useForm<UpdateInputs>();
 
   const callIt = async () => {
     setLoading(true);
@@ -85,6 +91,31 @@ function App() {
     }
   };
 
+  const onUpdate: SubmitHandler<UpdateInputs> = async (data) => {
+    const formData: any = new FormData();
+    const { name } = data;
+    const { newName } = data;
+    const pic = data.image[0];
+
+    formData.append('image', pic);
+    formData.append('name', name);
+    formData.append('newName', newName);
+    setLoading(true);
+
+    try {
+      const sentData = await fetch('/api/update', {
+        method: 'POST',
+        body: formData,
+      });
+      const res = await sentData.json();
+      setLoading(false);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="App">
       <p>{loading.toString()}</p>
@@ -115,13 +146,29 @@ function App() {
         <button type="submit">submit</button>
       </form> */}
 
-      <form onSubmit={handleSubmit(onDelete)}>
+      <form onSubmit={handleSubmit(onUpdate)}>
+        <label htmlFor="nameUpdate">
+          enter name to update:
+          <input {...register('name')} id="nameUpdateInput" />
+        </label>
+        <label htmlFor="newName">
+          enter new name:
+          <input {...register('newName')} id="newNameInput" />
+        </label>
+        <label htmlFor="newImage">
+          upload new img:
+          <input {...register('image')} id="newImageInput" type="file" />
+        </label>
+        <button type="submit">Update</button>
+      </form>
+
+      {/* <form onSubmit={handleSubmit(onDelete)}>
         <label htmlFor="nameInput">
           enter delete name:
           <input {...register('name')} id="nameDelete" />
         </label>
         <button type="submit">Delete item</button>
-      </form>
+      </form> */}
 
       {/* <form onSubmit={handleSubmit(onSearch)}>
         <label htmlFor="searchInput">

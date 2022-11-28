@@ -44,6 +44,43 @@ const endpoint = (app) => {
     }
   });
 
+  app.post('/api/update', upload.single('image'), async (req, res) => {
+    const imageRef = fireApp.storage.ref(
+      fireApp.fireStorage,
+      `imgs/${req.file.originalname}/`
+    );
+
+    try {
+      await fireApp.storage.uploadBytesResumable(imageRef, req.file.buffer);
+      const imageUrl = await fireApp.storage.getDownloadURL(imageRef);
+
+      const item = await Item.find({ name: req.body.name });
+      const imageToDelete = fireApp.storage.ref(
+        fireApp.fireStorage,
+        `imgs/${item[0].filename}`
+      );
+      await fireApp.storage.deleteObject(imageToDelete);
+      Item.findOneAndUpdate(
+        { name: req.body.name },
+        {
+          name: req.body.newName,
+          imageLink: imageUrl,
+          filename: req.file.originalname,
+        },
+        (err) => {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log('updated item');
+          }
+        }
+      );
+      res.json('done');
+    } catch (err) {
+      console.log(err);
+    }
+  });
+
   app.get('/api/search', async (req, res) => {
     const nameToFind = req.query.name;
     const items = await Item.find({ name: nameToFind });

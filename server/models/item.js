@@ -12,6 +12,10 @@ const itemSchema = new ItemSchema(
       type: String,
       required: true,
     },
+    filename: {
+      type: String,
+      required: true,
+    },
     id: {
       type: String,
       required: true,

@@ -9,7 +9,7 @@ type Product = {
 };
 
 type FormInputs = {
-  name: string;
+  name: number;
   image: FileList[];
 };
 
@@ -20,7 +20,7 @@ type SearchInputs = {
 function App() {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { register, handleSubmit } = useForm<FormInputs>();
+  const { register, handleSubmit } = useForm<SearchInputs>();
 
   const callIt = async () => {
     setLoading(true);
@@ -46,6 +46,21 @@ function App() {
       const res = await sentData.json();
       setLoading(false);
       console.log(res);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  const onDelete: SubmitHandler<SearchInputs> = async (data) => {
+    const { name } = data;
+    setLoading(true);
+
+    try {
+      const sentData = await fetch(`/api/delete?name=${name}`);
+      const res = await sentData.json();
+      console.log(res);
+      setLoading(false);
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -88,7 +103,7 @@ function App() {
         );
       })}
 
-      <form onSubmit={handleSubmit(onsubmit)}>
+      {/* <form onSubmit={handleSubmit(onsubmit)}>
         <label htmlFor="nameInput">
           Enter item name:
           <input {...register('name')} id="nameInput" />
@@ -98,15 +113,23 @@ function App() {
           <input {...register('image')} id="pictureInput" type="file" />
         </label>
         <button type="submit">submit</button>
+      </form> */}
+
+      <form onSubmit={handleSubmit(onDelete)}>
+        <label htmlFor="nameInput">
+          enter delete name:
+          <input {...register('name')} id="nameDelete" />
+        </label>
+        <button type="submit">Delete item</button>
       </form>
 
-      <form onSubmit={handleSubmit(onSearch)}>
+      {/* <form onSubmit={handleSubmit(onSearch)}>
         <label htmlFor="searchInput">
           Search product
           <input {...register('name')} id="searchInput" />
         </label>
         <button type="submit">Search</button>
-      </form>
+      </form> */}
     </div>
   );
 }

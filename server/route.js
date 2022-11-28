@@ -30,6 +30,7 @@ const endpoint = (app) => {
       const item = new Item({
         name: req.body.name,
         imageLink: imageUrl,
+        filename: req.file.originalname,
         id: uniqid('image-'),
       });
       try {
@@ -47,6 +48,26 @@ const endpoint = (app) => {
     const nameToFind = req.query.name;
     const items = await Item.find({ name: nameToFind });
     res.json(items);
+  });
+
+  app.get('/api/delete', async (req, res) => {
+    const nameToDelete = req.query.name;
+    const item = await Item.find({ name: nameToDelete });
+
+    const imageRef = fireApp.storage.ref(
+      fireApp.fireStorage,
+      `imgs/${item[0].filename}`
+    );
+
+    try {
+      const fireDel = await fireApp.storage.deleteObject(imageRef);
+      await Item.deleteOne({ name: nameToDelete });
+      console.log(fireDel);
+    } catch (err) {
+      console.log(err);
+    }
+
+    res.json('done');
   });
 
   app.get('/api/fetchAll', async (req, res) => {

@@ -1,7 +1,9 @@
 const path = require('path');
 const multer = require('multer');
 const uniqid = require('uniqid');
+const bcrypt = require('bcrypt');
 const Item = require('./models/item');
+const User = require('./models/User');
 const fireApp = require('./firebase.config');
 
 // Use multer memory storage.
@@ -33,12 +35,9 @@ const endpoint = (app) => {
         filename: req.file.originalname,
         id: uniqid('image-'),
       });
-      try {
-        await item.save();
-        res.json({ message: 'Done uploading.' });
-      } catch (err) {
-        console.log(err);
-      }
+
+      await item.save();
+      res.json({ message: 'Done uploading.' });
     } catch (err) {
       console.log(err);
     }
@@ -116,6 +115,41 @@ const endpoint = (app) => {
     const items = await Item.find({});
     console.log(items);
     res.json(items);
+  });
+
+  app.post('/api/createUser', async (req, res) => {
+    try {
+      const sampleName = 'alban';
+      const samplePwd = 'alban4321';
+      const hashedPwd = await bcrypt.hash(samplePwd, 10);
+      const user = new User({
+        name: sampleName,
+        pwd: hashedPwd,
+      });
+      await user.save();
+      res.json('User created');
+    } catch (err) {
+      console.log(err);
+    }
+  });
+
+  app.post('/api/login', async (req, res) => {
+    const sampleName = 'alban';
+    const samplePwd = 'alban4321';
+    try {
+      const user = await User.findOne({ name: sampleName });
+      if (user) {
+        if (await bcrypt.compare(samplePwd, user.pwd)) {
+          res.send('login done');
+        } else {
+          res.send('failed login');
+        }
+      } else {
+        res.json('not found');
+      }
+    } catch (error) {
+      console.log(error);
+    }
   });
 
   app.get('*', (req, res) => {

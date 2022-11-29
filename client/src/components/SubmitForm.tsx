@@ -40,7 +40,7 @@ function SubmitForm({ setLoading }: Props) {
       <form onSubmit={handleSubmit(onsubmit)}>
         <label htmlFor="nameInput">
           Enter item name:
-          <input {...(register('name'), { required: true })} id="nameInput" />
+          <input {...register('name', { required: true })} id="nameInput" />
         </label>
         <label htmlFor="pictureInput">
           Enter item file:

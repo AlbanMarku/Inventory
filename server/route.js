@@ -12,17 +12,13 @@ const storage = multer.memoryStorage();
 const endpoint = (app) => {
   const upload = multer({ storage });
 
-  app.get('/api', (req, res) => {
-    res.json({ message: '👋 from Express!' });
-  });
-
   app.post('/api/upload', upload.single('image'), async (req, res) => {
-    // Location reference for fire storage online location.
-    const imageRef = fireApp.storage.ref(
-      fireApp.fireStorage,
-      `imgs/${req.file.originalname}/`
-    );
     try {
+      // Location reference for fire storage online location.
+      const imageRef = fireApp.storage.ref(
+        fireApp.fireStorage,
+        `imgs/${req.file.originalname}/`
+      );
       // Send image from memory buffer to fire storage.
       await fireApp.storage.uploadBytesResumable(imageRef, req.file.buffer);
       // Get the url of image that was just sent.
@@ -40,12 +36,15 @@ const endpoint = (app) => {
       res.json({ message: 'Done uploading.' });
     } catch (err) {
       console.log(err);
+      res.json({ message: 'Something went wrong.' });
     }
   });
 
   app.post('/api/update', upload.single('image'), async (req, res) => {
     try {
+      // Find item in db.
       const item = await Item.find({ name: req.body.name });
+      // If there is an item, upload new image.
       if (item[0]) {
         const imageRef = fireApp.storage.ref(
           fireApp.fireStorage,
@@ -55,12 +54,13 @@ const endpoint = (app) => {
         await fireApp.storage.uploadBytesResumable(imageRef, req.file.buffer);
         const imageUrl = await fireApp.storage.getDownloadURL(imageRef);
 
+        // Delete old image.
         const imageToDelete = fireApp.storage.ref(
           fireApp.fireStorage,
           `imgs/${item[0].filename}`
         );
         await fireApp.storage.deleteObject(imageToDelete);
-
+        // Update values of item with new image url.
         Item.findOneAndUpdate(
           { name: req.body.name },
           {
@@ -71,31 +71,39 @@ const endpoint = (app) => {
           (err) => {
             if (err) {
               console.log(err);
+              res.json({ message: 'Something went wrong.' });
             } else {
-              console.log('updated item');
-              res.json('done');
+              res.json({ message: 'Update item!' });
             }
           }
         );
       } else {
-        console.log('There is no item to update.');
-        res.json('there is no item to update');
+        res.json("Item doesn't exist.");
       }
     } catch (err) {
       console.log(err);
+      res.json({ message: 'Something went wrong.' });
     }
   });
 
   app.get('/api/search', async (req, res) => {
+    // Find item in db.
     const nameToFind = req.query.name;
-    const items = await Item.find({ name: nameToFind });
-    res.json(items);
+    try {
+      const items = await Item.find({ name: nameToFind });
+      res.json(items);
+    } catch (err) {
+      console.log(err);
+      res.json({ message: 'Something went wrong.' });
+    }
   });
 
   app.get('/api/delete', async (req, res) => {
+    // Find item in db.
     const nameToDelete = req.query.name;
     const item = await Item.find({ name: nameToDelete });
 
+    // If found, find image in storage.
     if (item[0]) {
       const imageRef = fireApp.storage.ref(
         fireApp.fireStorage,
@@ -103,26 +111,33 @@ const endpoint = (app) => {
       );
 
       try {
+        // Delete image in storage and item in db.
         const fireDel = await fireApp.storage.deleteObject(imageRef);
         await Item.deleteOne({ name: nameToDelete });
         console.log(fireDel);
+        res.json({ message: 'Deleted.' });
       } catch (err) {
         console.log(err);
+        res.json({ message: 'Something went wrong.' });
       }
-
-      res.json('done');
     } else {
-      res.json('not found');
+      res.json({ message: "Item doesn't exist." });
     }
   });
 
   app.get('/api/fetchAll', async (req, res) => {
-    const items = await Item.find({});
-    console.log(items);
-    res.json(items);
+    // Find all items.
+    try {
+      const items = await Item.find({});
+      res.json(items);
+    } catch (err) {
+      console.log(err);
+      res.json({ message: 'Something went wrong.' });
+    }
   });
 
   app.post('/api/createUser', async (req, res) => {
+    // Encrypt provided password and then create a new user.
     try {
       const sampleName = 'alban';
       const samplePwd = 'alban4321';
@@ -132,28 +147,31 @@ const endpoint = (app) => {
         pwd: hashedPwd,
       });
       await user.save();
-      res.json('User created');
+      res.json({ message: 'User created.' });
     } catch (err) {
       console.log(err);
+      res.json({ message: 'Something went wrong.' });
     }
   });
 
   app.post('/api/login', async (req, res) => {
+    // Find username then check if password matches with db pwd to provided pwd.
     const sampleName = 'alban';
     const samplePwd = 'alban4321';
     try {
       const user = await User.findOne({ name: sampleName });
       if (user) {
         if (await bcrypt.compare(samplePwd, user.pwd)) {
-          res.send('login done');
+          res.json({ message: 'Logged in.' });
         } else {
-          res.send('failed login');
+          res.json({ message: 'Incorrect username or password.' });
         }
       } else {
-        res.json('not found');
+        res.json({ message: 'Incorrect username or password.' });
       }
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
+      res.json({ message: 'Something went wrong.' });
     }
   });
 

@@ -2,7 +2,7 @@ const path = require('path');
 const multer = require('multer');
 const uniqid = require('uniqid');
 const bcrypt = require('bcrypt');
-const Item = require('./models/item');
+const Item = require('./models/Item');
 const User = require('./models/User');
 const fireApp = require('./firebase.config');
 
@@ -45,15 +45,16 @@ const endpoint = (app) => {
 
   app.post('/api/update', upload.single('image'), async (req, res) => {
     try {
-      const imageRef = fireApp.storage.ref(
-        fireApp.fireStorage,
-        `imgs/${req.file.originalname}/`
-      );
-      await fireApp.storage.uploadBytesResumable(imageRef, req.file.buffer);
-      const imageUrl = await fireApp.storage.getDownloadURL(imageRef);
-
       const item = await Item.find({ name: req.body.name });
       if (item[0]) {
+        const imageRef = fireApp.storage.ref(
+          fireApp.fireStorage,
+          `imgs/${req.file.originalname}/`
+        );
+
+        await fireApp.storage.uploadBytesResumable(imageRef, req.file.buffer);
+        const imageUrl = await fireApp.storage.getDownloadURL(imageRef);
+
         const imageToDelete = fireApp.storage.ref(
           fireApp.fireStorage,
           `imgs/${item[0].filename}`
@@ -95,20 +96,24 @@ const endpoint = (app) => {
     const nameToDelete = req.query.name;
     const item = await Item.find({ name: nameToDelete });
 
-    const imageRef = fireApp.storage.ref(
-      fireApp.fireStorage,
-      `imgs/${item[0].filename}`
-    );
+    if (item[0]) {
+      const imageRef = fireApp.storage.ref(
+        fireApp.fireStorage,
+        `imgs/${item[0].filename}`
+      );
 
-    try {
-      const fireDel = await fireApp.storage.deleteObject(imageRef);
-      await Item.deleteOne({ name: nameToDelete });
-      console.log(fireDel);
-    } catch (err) {
-      console.log(err);
+      try {
+        const fireDel = await fireApp.storage.deleteObject(imageRef);
+        await Item.deleteOne({ name: nameToDelete });
+        console.log(fireDel);
+      } catch (err) {
+        console.log(err);
+      }
+
+      res.json('done');
+    } else {
+      res.json('not found');
     }
-
-    res.json('done');
   });
 
   app.get('/api/fetchAll', async (req, res) => {

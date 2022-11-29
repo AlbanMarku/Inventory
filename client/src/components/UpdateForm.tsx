@@ -19,6 +19,7 @@ function UpdateForm({ setLoading }: Props) {
     const { name } = data;
     const { newName } = data;
     const pic = data.image[0];
+    console.log(name);
 
     formData.append('image', pic);
     formData.append('name', name);
@@ -44,7 +45,7 @@ function UpdateForm({ setLoading }: Props) {
         <label htmlFor="nameUpdate">
           enter name to update:
           <input
-            {...(register('name'), { required: true })}
+            {...register('name', { required: true })}
             id="nameUpdateInput"
           />
         </label>
@@ -58,7 +59,7 @@ function UpdateForm({ setLoading }: Props) {
         <label htmlFor="newImage">
           upload new img:
           <input
-            {...(register('image'), { required: true })}
+            {...register('image', { required: true })}
             id="newImageInput"
             type="file"
           />

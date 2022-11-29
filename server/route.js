@@ -14,10 +14,11 @@ const endpoint = (app) => {
 
   app.post('/api/upload', upload.single('image'), async (req, res) => {
     try {
+      const randomString = uniqid('image-');
       // Location reference for fire storage online location.
       const imageRef = fireApp.storage.ref(
         fireApp.fireStorage,
-        `imgs/${req.file.originalname}/`
+        `imgs/${`${randomString}_${req.file.originalname}`}/`
       );
       // Send image from memory buffer to fire storage.
       await fireApp.storage.uploadBytesResumable(imageRef, req.file.buffer);
@@ -29,7 +30,7 @@ const endpoint = (app) => {
         name: req.body.name,
         imageLink: imageUrl,
         filename: req.file.originalname,
-        id: uniqid('image-'),
+        id: randomString,
       });
 
       await item.save();

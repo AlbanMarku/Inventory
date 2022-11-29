@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import ItemCard from '../components/ItemCard';
 
 type Product = {
   name: string;
@@ -10,29 +11,30 @@ function Home() {
   const [loading, setLoading] = useState(false);
   const [items, setItems] = useState([]);
 
-  const callIt = async () => {
+  useEffect(() => {
     setLoading(true);
-    const response = await fetch('/api/fetchAll');
-    const data = await response.json();
-    setItems(data);
-    setLoading(false);
-  };
+    fetch('/api/fetchAll').then((res) => {
+      res.json().then((data) => {
+        setItems(data);
+        setLoading(false);
+      });
+    });
+  }, []);
   return (
     <div className="Home">
-      <button type="button" onClick={callIt}>
-        Get all product images
-      </button>
-      {items.map((element: Product) => {
-        return (
-          <div key={element.id}>
-            <img
-              src={element.imageLink}
-              alt="product"
-              style={{ width: '500px' }}
+      {loading ? (
+        <p>I am loading</p>
+      ) : (
+        items.map((element: Product) => {
+          return (
+            <ItemCard
+              key={element.id}
+              name={element.name}
+              image={element.imageLink}
             />
-          </div>
-        );
-      })}
+          );
+        })
+      )}
     </div>
   );
 }

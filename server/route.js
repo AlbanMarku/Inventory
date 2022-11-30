@@ -155,20 +155,20 @@ const endpoint = (app) => {
     }
   });
 
-  app.post('/api/login', async (req, res) => {
+  app.get('/api/login', async (req, res) => {
     // Find username then check if password matches with db pwd to provided pwd.
-    const sampleName = 'alban';
-    const samplePwd = 'alban4321';
+    const { sampleName } = req.query;
+    const { samplePwd } = req.query;
     try {
       const user = await User.findOne({ name: sampleName });
       if (user) {
         if (await bcrypt.compare(samplePwd, user.pwd)) {
-          res.json({ message: 'Logged in.' });
+          res.json({ message: 'Logged in.', username: sampleName });
         } else {
           res.json({ message: 'Incorrect username or password.' });
         }
       } else {
-        res.json({ message: 'Incorrect username or password.' });
+        res.json({ message: 'No user.' });
       }
     } catch (err) {
       console.log(err);

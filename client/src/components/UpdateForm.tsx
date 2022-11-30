@@ -19,7 +19,6 @@ function UpdateForm({ setLoading }: Props) {
     const { name } = data;
     const { newName } = data;
     const pic = data.image[0];
-    console.log(name);
 
     formData.append('image', pic);
     formData.append('name', name);

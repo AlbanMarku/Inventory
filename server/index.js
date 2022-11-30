@@ -13,7 +13,6 @@ const { CLUSTER_NAME } = process.env;
 const { CLUSTER_ID } = process.env;
 
 app.use(express.static(path.resolve(__dirname, '../client/dist')));
-// app.use('/photo', express.static('imgs'));
 app.use(express.json({ limit: '1mb', strict: true }));
 
 const dbURI = `mongodb+srv://${MONGO_USER}:${MONGO_PWD}@${CLUSTER_NAME}.${CLUSTER_ID}.mongodb.net/?retryWrites=true&w=majority`;

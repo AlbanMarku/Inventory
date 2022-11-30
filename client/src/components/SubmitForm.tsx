@@ -8,12 +8,14 @@ type FormInputs = {
 
 type Props = {
   setLoading: (param: boolean) => void;
+  logged: boolean;
 };
 
-function SubmitForm({ setLoading }: Props) {
+function SubmitForm({ setLoading, logged }: Props) {
   const { register, handleSubmit } = useForm<FormInputs>();
 
   const onsubmit: SubmitHandler<FormInputs> = async (data) => {
+    if (!logged) return alert('You must login to make changes.');
     const formData: any = new FormData();
     const pic = data.image[0];
     const { name } = data;
@@ -33,6 +35,7 @@ function SubmitForm({ setLoading }: Props) {
       console.log(error);
       setLoading(false);
     }
+    return 'Done submitting.';
   };
 
   return (

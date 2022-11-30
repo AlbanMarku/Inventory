@@ -9,12 +9,14 @@ type UpdateInputs = {
 
 type Props = {
   setLoading: (param: boolean) => void;
+  logged: boolean;
 };
 
-function UpdateForm({ setLoading }: Props) {
+function UpdateForm({ setLoading, logged }: Props) {
   const { register, handleSubmit } = useForm<UpdateInputs>();
 
   const onUpdate: SubmitHandler<UpdateInputs> = async (data) => {
+    if (!logged) return alert('You must be logged in to update item.');
     const formData: any = new FormData();
     const { name } = data;
     const { newName } = data;
@@ -37,6 +39,7 @@ function UpdateForm({ setLoading }: Props) {
       console.log(error);
       setLoading(false);
     }
+    return 'Done updating.';
   };
   return (
     <div className="UpdateForm">

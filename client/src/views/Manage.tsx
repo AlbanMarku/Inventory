@@ -8,6 +8,7 @@ import DeleteForm from '../components/DeleteForm';
 function Manage() {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState('');
+  const [logged, setLogged] = useState(false);
 
   const login = async () => {
     const formData: any = new FormData();
@@ -24,9 +25,11 @@ function Manage() {
       });
       const res = await log.json();
       console.log(res);
+      setLogged(true);
       setLoading(false);
     } catch (error) {
       console.log(error);
+      setLogged(false);
       setLoading(false);
     }
   };
@@ -41,10 +44,10 @@ function Manage() {
         <ClipLoader color="red" loading={loading} size={100} />
       ) : (
         <div className="forms">
-          <SubmitForm setLoading={setLoading} />
+          <SubmitForm setLoading={setLoading} logged={logged} />
           <SearchForm setLoading={setLoading} />
-          <UpdateForm setLoading={setLoading} />
-          <DeleteForm setLoading={setLoading} />
+          <UpdateForm setLoading={setLoading} logged={logged} />
+          <DeleteForm setLoading={setLoading} logged={logged} />
         </div>
       )}
     </div>

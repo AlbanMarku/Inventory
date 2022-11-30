@@ -7,13 +7,14 @@ type SearchInputs = {
 
 type Props = {
   setLoading: (param: boolean) => void;
+  logged: boolean;
 };
 
-function DeleteForm({ setLoading }: Props) {
+function DeleteForm({ setLoading, logged }: Props) {
   const { register, handleSubmit } = useForm<SearchInputs>();
 
   const onDelete: SubmitHandler<SearchInputs> = async (data) => {
-    console.log(data);
+    if (!logged) return alert('You must be logged in to delete item.');
     const { name } = data;
     setLoading(true);
 
@@ -26,6 +27,7 @@ function DeleteForm({ setLoading }: Props) {
       console.log(error);
       setLoading(false);
     }
+    return 'Done deleting.';
   };
   return (
     <div className="DeleteForm">

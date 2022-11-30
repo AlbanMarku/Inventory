@@ -155,10 +155,10 @@ const endpoint = (app) => {
     }
   });
 
-  app.get('/api/login', async (req, res) => {
+  app.post('/api/login', upload.none(), async (req, res) => {
     // Find username then check if password matches with db pwd to provided pwd.
-    const { sampleName } = req.query;
-    const { samplePwd } = req.query;
+    const { sampleName } = req.body;
+    const { samplePwd } = req.body;
     try {
       const user = await User.findOne({ name: sampleName });
       if (user) {

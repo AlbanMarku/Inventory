@@ -10,14 +10,20 @@ function Manage() {
   const [user, setUser] = useState('');
 
   const login = async () => {
+    const formData: any = new FormData();
     const name = 'alban';
     const pwd = 'alban4321';
+
+    formData.append('sampleName', name);
+    formData.append('samplePwd', pwd);
     setLoading(true);
     try {
-      const log = await fetch(`/api/login?sampleName=${name}&samplePwd=${pwd}`);
+      const log = await fetch('/api/login', {
+        method: 'POST',
+        body: formData,
+      });
       const res = await log.json();
       console.log(res);
-      setUser(res.username);
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -27,13 +33,9 @@ function Manage() {
 
   return (
     <div className="Manage">
-      {user ? (
-        'logged in'
-      ) : (
-        <button type="button" onClick={login}>
-          login
-        </button>
-      )}
+      <button type="button" onClick={login}>
+        login
+      </button>
 
       {loading ? (
         <ClipLoader color="red" loading={loading} size={100} />

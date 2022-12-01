@@ -1,5 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
+import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 type FormInputs = {
   name: number;
@@ -7,11 +9,11 @@ type FormInputs = {
 };
 
 type Props = {
-  setLoading: (param: boolean) => void;
   logged: boolean;
 };
 
-function SubmitForm({ setLoading, logged }: Props) {
+function SubmitForm({ logged }: Props) {
+  const [loading, setLoading] = useState(false);
   const { register, handleSubmit } = useForm<FormInputs>();
 
   const onsubmit: SubmitHandler<FormInputs> = async (data) => {
@@ -30,7 +32,6 @@ function SubmitForm({ setLoading, logged }: Props) {
       });
       const res = await sentData.json();
       setLoading(false);
-      console.log(res);
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -41,18 +42,24 @@ function SubmitForm({ setLoading, logged }: Props) {
   return (
     <div className="SubmitForm">
       <form onSubmit={handleSubmit(onsubmit)}>
-        <label htmlFor="nameInput">
-          Enter item name:
-          <input {...register('name', { required: true })} id="nameInput" />
-        </label>
-        <label htmlFor="pictureInput">
-          Enter item file:
-          <input
-            {...register('image', { required: true })}
-            id="pictureInput"
-            type="file"
-          />
-        </label>
+        {loading ? (
+          <ClipLoader color="red" loading={loading} size={100} />
+        ) : (
+          <>
+            <label htmlFor="nameInput">
+              <p>Enter name:</p>
+              <input {...register('name', { required: true })} id="nameInput" />
+            </label>
+            <label htmlFor="pictureInput">
+              <p>Upload file</p>
+              <input
+                {...register('image', { required: true })}
+                id="pictureInput"
+                type="file"
+              />
+            </label>
+          </>
+        )}
         <button type="submit">submit</button>
       </form>
     </div>

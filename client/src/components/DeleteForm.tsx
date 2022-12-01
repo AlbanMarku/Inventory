@@ -1,17 +1,19 @@
 /* eslint-disable react/jsx-props-no-spreading */
+import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 type SearchInputs = {
   name: string;
 };
 
 type Props = {
-  setLoading: (param: boolean) => void;
   logged: boolean;
 };
 
-function DeleteForm({ setLoading, logged }: Props) {
+function DeleteForm({ logged }: Props) {
   const { register, handleSubmit } = useForm<SearchInputs>();
+  const [loading, setLoading] = useState(false);
 
   const onDelete: SubmitHandler<SearchInputs> = async (data) => {
     if (!logged) return alert('You must be logged in to delete item.');
@@ -21,7 +23,6 @@ function DeleteForm({ setLoading, logged }: Props) {
     try {
       const sentData = await fetch(`/api/delete?name=${name}`);
       const res = await sentData.json();
-      console.log(res);
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -32,10 +33,14 @@ function DeleteForm({ setLoading, logged }: Props) {
   return (
     <div className="DeleteForm">
       <form onSubmit={handleSubmit(onDelete)}>
-        <label htmlFor="nameInput">
-          enter delete name:
-          <input {...register('name', { required: true })} id="nameInput" />
-        </label>
+        {loading ? (
+          <ClipLoader color="red" loading={loading} size={100} />
+        ) : (
+          <label htmlFor="nameInput">
+            enter delete name:
+            <input {...register('name', { required: true })} id="nameInput" />
+          </label>
+        )}
         <button type="submit">Delete item</button>
       </form>
     </div>

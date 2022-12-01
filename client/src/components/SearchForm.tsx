@@ -1,5 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
+import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 type SearchInputs = {
   name: number;
@@ -12,12 +14,9 @@ type Product = {
   id: string;
 };
 
-type Props = {
-  setLoading: (param: boolean) => void;
-};
-
-function SearchFrom({ setLoading }: Props) {
+function SearchFrom() {
   const { register, handleSubmit } = useForm<SearchInputs>();
+  const [loading, setLoading] = useState(false);
 
   const onSearch: SubmitHandler<SearchInputs> = async (data) => {
     const { name } = data;
@@ -39,10 +38,14 @@ function SearchFrom({ setLoading }: Props) {
   return (
     <div className="SearchForm">
       <form onSubmit={handleSubmit(onSearch)}>
-        <label htmlFor="searchInput">
-          Search product
-          <input {...register('name', { required: true })} id="searchInput" />
-        </label>
+        {loading ? (
+          <ClipLoader color="red" loading={loading} size={100} />
+        ) : (
+          <label htmlFor="searchInput">
+            Search product
+            <input {...register('name', { required: true })} id="searchInput" />
+          </label>
+        )}
         <button type="submit">Search</button>
       </form>
     </div>

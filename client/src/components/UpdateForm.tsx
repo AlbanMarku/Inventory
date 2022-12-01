@@ -1,5 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
+import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 type UpdateInputs = {
   name: string;
@@ -8,12 +10,12 @@ type UpdateInputs = {
 };
 
 type Props = {
-  setLoading: (param: boolean) => void;
   logged: boolean;
 };
 
-function UpdateForm({ setLoading, logged }: Props) {
+function UpdateForm({ logged }: Props) {
   const { register, handleSubmit } = useForm<UpdateInputs>();
+  const [loading, setLoading] = useState(false);
 
   const onUpdate: SubmitHandler<UpdateInputs> = async (data) => {
     if (!logged) return alert('You must be logged in to update item.');
@@ -44,28 +46,35 @@ function UpdateForm({ setLoading, logged }: Props) {
   return (
     <div className="UpdateForm">
       <form onSubmit={handleSubmit(onUpdate)}>
-        <label htmlFor="nameUpdate">
-          enter name to update:
-          <input
-            {...register('name', { required: true })}
-            id="nameUpdateInput"
-          />
-        </label>
-        <label htmlFor="newName">
-          enter new name:
-          <input
-            {...register('newName', { required: true })}
-            id="newNameInput"
-          />
-        </label>
-        <label htmlFor="newImage">
-          upload new img:
-          <input
-            {...register('image', { required: true })}
-            id="newImageInput"
-            type="file"
-          />
-        </label>
+        {loading ? (
+          <ClipLoader color="red" loading={loading} size={100} />
+        ) : (
+          <>
+            <label htmlFor="nameUpdate">
+              enter name to update:
+              <input
+                {...register('name', { required: true })}
+                id="nameUpdateInput"
+              />
+            </label>
+            <label htmlFor="newName">
+              enter new name:
+              <input
+                {...register('newName', { required: true })}
+                id="newNameInput"
+              />
+            </label>
+            <label htmlFor="newImage">
+              upload new img:
+              <input
+                {...register('image', { required: true })}
+                id="newImageInput"
+                type="file"
+              />
+            </label>
+          </>
+        )}
+
         <button type="submit">Update</button>
       </form>
     </div>

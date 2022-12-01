@@ -14,6 +14,5 @@
 .Home {
     display: flex;
     flex-direction: column;
-    background-color: green;
     align-items: center;
 }

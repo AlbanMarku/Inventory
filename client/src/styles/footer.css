@@ -1,3 +1,6 @@
 footer {
-    border: solid red
+    border: solid red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

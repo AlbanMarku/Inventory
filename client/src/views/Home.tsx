@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import ItemCard from '../components/ItemCard';
+import '../styles/home.css';
 
 type Product = {
   name: string;
@@ -22,19 +23,21 @@ function Home() {
   }, []);
   return (
     <div className="Home">
-      {loading ? (
-        <p>I am loading</p>
-      ) : (
-        items.map((element: Product) => {
-          return (
-            <ItemCard
-              key={element.id}
-              name={element.name}
-              image={element.imageLink}
-            />
-          );
-        })
-      )}
+      <main>
+        {loading ? (
+          <p>I am loading</p>
+        ) : (
+          items.map((element: Product) => {
+            return (
+              <ItemCard
+                key={element.id}
+                name={element.name}
+                image={element.imageLink}
+              />
+            );
+          })
+        )}
+      </main>
     </div>
   );
 }

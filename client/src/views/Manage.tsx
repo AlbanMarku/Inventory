@@ -24,7 +24,6 @@ function Manage() {
         body: formData,
       });
       const res = await log.json();
-      console.log(res);
       setLogged(true);
       setLoading(false);
     } catch (error) {

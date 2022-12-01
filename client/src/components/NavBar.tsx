@@ -6,12 +6,18 @@ function NavBar() {
     <nav>
       <ul>
         <li>
-          <Link to="/">Home</Link>
+          <Link className="link" to="/">
+            Home
+          </Link>
         </li>
         <li>
-          <Link to="/manage">Manage</Link>
+          <Link className="link" to="/manage">
+            Manage
+          </Link>
         </li>
       </ul>
+      <h1>Inventory</h1>
+      <p>name here</p>
     </nav>
   );
 }

@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import ClipLoader from 'react-spinners/ClipLoader';
+import Result from './Result';
 
 type SearchInputs = {
   name: number;
@@ -17,6 +18,7 @@ type Product = {
 function SearchFrom() {
   const { register, handleSubmit } = useForm<SearchInputs>();
   const [loading, setLoading] = useState(false);
+  const [thing, setThing] = useState<Product>();
 
   const onSearch: SubmitHandler<SearchInputs> = async (data) => {
     const { name } = data;
@@ -26,10 +28,10 @@ function SearchFrom() {
       const sentData = await fetch(`/api/search?name=${name}`);
       const res = await sentData.json();
       console.log('done');
-      setLoading(false);
       res.forEach((element: Product) => {
-        console.log(element.imageLink);
+        setThing(element);
       });
+      setLoading(false);
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -47,6 +49,11 @@ function SearchFrom() {
           </label>
         )}
         <button type="submit">Search</button>
+        {thing ? (
+          <Result image={thing.imageLink} itemName={thing.name} />
+        ) : (
+          <p>Nothing</p>
+        )}
       </form>
     </div>
   );

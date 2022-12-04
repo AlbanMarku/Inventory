@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import '../styles/result.css';
 
 type Props = {
   image: string;
@@ -6,21 +6,10 @@ type Props = {
 };
 
 function Result({ itemName, image }: Props) {
-  const [imageSource, setImageSource] = useState('');
-  const showImg = () => {
-    if (imageSource) setImageSource('');
-    else setImageSource(image);
-  };
   return (
     <div className="Result">
       <p>{itemName}</p>
-      {imageSource ? (
-        <img src={imageSource} alt="Product" />
-      ) : (
-        <button type="button" onClick={showImg}>
-          Show image
-        </button>
-      )}
+      <img id="imgSource" src={image} alt="Product" />
     </div>
   );
 }

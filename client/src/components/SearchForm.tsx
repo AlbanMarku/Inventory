@@ -18,19 +18,25 @@ type Product = {
 function SearchFrom() {
   const { register, handleSubmit } = useForm<SearchInputs>();
   const [loading, setLoading] = useState(false);
-  const [thing, setThing] = useState<Product>();
+  const [fetchedData, setFetchedData] = useState<Product>();
+  const [found, setFound] = useState(false);
+  const [firstSearch, setFirstSearch] = useState(false);
 
   const onSearch: SubmitHandler<SearchInputs> = async (data) => {
     const { name } = data;
 
     setLoading(true);
     try {
+      setFirstSearch(true);
       const sentData = await fetch(`/api/search?name=${name}`);
       const res = await sentData.json();
-      console.log('done');
-      res.forEach((element: Product) => {
-        setThing(element);
-      });
+      if (res[0]) {
+        setFetchedData(res[0]);
+        setFound(true);
+      } else {
+        setFetchedData({ name: '', imageLink: '', id: '' });
+        setFound(false);
+      }
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -49,10 +55,16 @@ function SearchFrom() {
           </label>
         )}
         <button type="submit">Search</button>
-        {thing ? (
-          <Result image={thing.imageLink} itemName={thing.name} />
+        {found && fetchedData ? (
+          <div className="previewArea">
+            <p>Item preview:</p>
+            <Result image={fetchedData.imageLink} itemName={fetchedData.name} />
+          </div>
         ) : (
-          <p>Nothing</p>
+          <div className="previewText">
+            <p>Item preview:</p>
+            {firstSearch ? <p>Nothing found.</p> : <p>Search something!</p>}
+          </div>
         )}
       </form>
     </div>

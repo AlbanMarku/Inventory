@@ -55,17 +55,22 @@ function SearchFrom() {
           </label>
         )}
         <button type="submit">Search</button>
-        {found && fetchedData ? (
-          <div className="previewArea">
-            <p>Item preview:</p>
-            <Result image={fetchedData.imageLink} itemName={fetchedData.name} />
-          </div>
-        ) : (
-          <div className="previewText">
-            <p>Item preview:</p>
-            {firstSearch ? <p>Nothing found.</p> : <p>Search something!</p>}
-          </div>
-        )}
+        <div className="displayArea">
+          {found && fetchedData ? (
+            <div className="previewArea">
+              <h3>Item preview</h3>
+              <Result
+                image={fetchedData.imageLink}
+                itemName={fetchedData.name}
+              />
+            </div>
+          ) : (
+            <div className="previewText">
+              <p>Item preview:</p>
+              {firstSearch ? <p>Nothing found.</p> : <p>Search something!</p>}
+            </div>
+          )}
+        </div>
       </form>
     </div>
   );

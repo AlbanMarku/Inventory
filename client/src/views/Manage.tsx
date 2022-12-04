@@ -5,8 +5,12 @@ import UpdateForm from '../components/UpdateForm';
 import DeleteForm from '../components/DeleteForm';
 import '../styles/manage.css';
 
-function Manage() {
-  const [user, setUser] = useState('');
+type Props = {
+  setUser: (param: string) => void;
+  user: string;
+};
+
+function Manage({ user, setUser }: Props) {
   const [logged, setLogged] = useState(false);
   const [buttonText, setButtonText] = useState('Login');
 

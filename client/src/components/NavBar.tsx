@@ -1,7 +1,11 @@
 import { Link } from 'react-router-dom';
 import '../styles/navBar.css';
 
-function NavBar() {
+type Props = {
+  user: string;
+};
+
+function NavBar({ user }: Props) {
   return (
     <nav>
       <ul>
@@ -17,7 +21,7 @@ function NavBar() {
         </li>
       </ul>
       <h1>Inventory</h1>
-      <p>name here</p>
+      {user ? <p>Welcome {user}</p> : <p>login</p>}
     </nav>
   );
 }

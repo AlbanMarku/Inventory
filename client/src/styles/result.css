@@ -1,3 +1,26 @@
+.SearchForm {
+    border: solid red;
+}
+
+.displayArea {
+    border: solid orange;
+    width: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.previewArea {
+    border: solid blue;
+}
+
 #imgSource {
     width: 200px;
+    padding: 10px 0px;
 }
+
+.SearchForm p {
+    text-decoration: underline;
+}
+

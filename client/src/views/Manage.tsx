@@ -32,6 +32,7 @@ function Manage({ user, setUser }: Props) {
             openModal={openModal}
             setLogged={setLogged}
             setUser={setUser}
+            popup={popup}
           />
         </div>
         {user ? (

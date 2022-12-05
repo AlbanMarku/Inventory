@@ -148,7 +148,7 @@ const endpoint = (app) => {
         pwd: hashedPwd,
       });
       await user.save();
-      res.json({ message: 'User created.' });
+      res.json({ message: 'User created' });
     } catch (err) {
       console.log(err);
       res.json({ message: 'Something went wrong.' });
@@ -165,10 +165,10 @@ const endpoint = (app) => {
         if (await bcrypt.compare(samplePwd, user.pwd)) {
           res.json({ message: 'Logged in.', username: sampleName });
         } else {
-          res.json({ message: 'Incorrect username or password.' });
+          res.json({ message: 'Incorrect username or password' });
         }
       } else {
-        res.json({ message: 'No user.' });
+        res.json({ message: 'No user' });
       }
     } catch (err) {
       console.log(err);

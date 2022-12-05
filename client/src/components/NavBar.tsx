@@ -21,7 +21,7 @@ function NavBar({ user }: Props) {
         </li>
       </ul>
       <h1>Inventory</h1>
-      {user ? <p>Welcome {user}</p> : <p>Not signed in</p>}
+      <div>{user ? <p>Welcome {user}</p> : <p>Not signed in</p>}</div>
     </nav>
   );
 }

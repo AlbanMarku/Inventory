@@ -13,6 +13,7 @@ ul {
     list-style-position: inside;
     padding: 0;
     gap: 20px;
+    flex: 0;
 }
 
 li {
@@ -22,4 +23,16 @@ li {
 .link {
     text-decoration: none;
     color: black;
+}
+
+nav div {
+    flex: 0;
+    min-width: 100px;
+    text-align: center;
+}
+
+nav h1 {
+    flex: 1;
+    display: flex;
+    justify-content: center;
 }

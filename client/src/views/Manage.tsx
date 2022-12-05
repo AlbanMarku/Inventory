@@ -3,6 +3,7 @@ import SubmitForm from '../components/SubmitForm';
 import SearchForm from '../components/SearchForm';
 import UpdateForm from '../components/UpdateForm';
 import DeleteForm from '../components/DeleteForm';
+import Modal from '../components/Modal';
 import '../styles/manage.css';
 
 type Props = {
@@ -12,30 +13,10 @@ type Props = {
 
 function Manage({ user, setUser }: Props) {
   const [logged, setLogged] = useState(false);
-  const [buttonText, setButtonText] = useState('Login');
+  const [openModal, setOpenModal] = useState(false);
 
-  const login = async () => {
-    setButtonText('Loading...');
-    const formData: any = new FormData();
-    const name = 'alban';
-    const pwd = 'alban4321';
-
-    formData.append('sampleName', name);
-    formData.append('samplePwd', pwd);
-    try {
-      const log = await fetch('/api/login', {
-        method: 'POST',
-        body: formData,
-      });
-      const res = await log.json();
-      setLogged(true);
-      setUser(res.username);
-    } catch (error) {
-      console.log(error);
-      setLogged(false);
-      setUser('');
-    }
-    setButtonText('Login');
+  const popup = () => {
+    setOpenModal(!openModal);
   };
 
   const logout = () => {
@@ -46,13 +27,20 @@ function Manage({ user, setUser }: Props) {
   return (
     <div className="Manage">
       <div className="loginArea">
+        <div>
+          <Modal
+            openModal={openModal}
+            setLogged={setLogged}
+            setUser={setUser}
+          />
+        </div>
         {user ? (
           <button id="logoutBtn" type="button" onClick={logout}>
             Logout
           </button>
         ) : (
-          <button id="loginBtn" type="button" onClick={login}>
-            {buttonText}
+          <button id="loginBtn" type="button" onClick={popup}>
+            Login
           </button>
         )}
       </div>

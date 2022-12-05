@@ -28,7 +28,7 @@
     width: 100%;
 }
 
-form {
+.Manage form {
     width: 1000px;
     border: solid green;
     display: flex;
@@ -38,7 +38,7 @@ form {
     gap: 20px;
 }
 
-label {
+.Manage label {
     display: flex;
     flex-direction: column;
     align-items: center;

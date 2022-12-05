@@ -35,13 +35,21 @@ function Manage({ user, setUser }: Props) {
       setLogged(false);
       setUser('');
     }
+    setButtonText('Login');
+  };
+
+  const logout = () => {
+    setUser('');
+    setLogged(false);
   };
 
   return (
     <div className="Manage">
       <div className="loginArea">
         {user ? (
-          <p>welcome</p>
+          <button id="logoutBtn" type="button" onClick={logout}>
+            Logout
+          </button>
         ) : (
           <button id="loginBtn" type="button" onClick={login}>
             {buttonText}

@@ -23,5 +23,6 @@ module.exports = {
   rules: {
     'react/react-in-jsx-scope': 0,
     'import/no-extraneous-dependencies': 0,
+    'react/jsx-props-no-spreading': 0,
   },
 };

@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import ClipLoader from 'react-spinners/ClipLoader';

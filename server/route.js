@@ -29,12 +29,14 @@ const endpoint = (app) => {
       const item = new Item({
         name: req.body.name,
         imageLink: imageUrl,
-        filename: req.file.originalname,
+        filename: `${randomString}_${req.file.originalname}`,
         id: randomString,
       });
 
       await item.save();
       res.json({ message: 'Done uploading.' });
+      console.log(imageRef);
+      console.log(item.filename);
     } catch (err) {
       console.log(err);
       res.json({ message: 'Something went wrong.' });

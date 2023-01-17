@@ -66,18 +66,18 @@ function Modal({ openModal, setLogged, setUser, popup }: Props) {
           ) : (
             <>
               <form onSubmit={handleSubmit(login)}>
-                <label htmlFor="nameInput">
+                <label htmlFor="loginName">
                   Name:
                   <input
                     {...register('name', { required: true })}
-                    id="nameInput"
+                    id="loginName"
                   />
                 </label>
-                <label htmlFor="passwordInput">
+                <label htmlFor="loginPassword">
                   Password:
                   <input
                     {...register('password', { required: true })}
-                    id="passwordInput"
+                    id="loginPassword"
                     type="password"
                   />
                 </label>

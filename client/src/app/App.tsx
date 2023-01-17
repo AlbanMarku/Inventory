@@ -8,6 +8,7 @@ import '../styles/app.css';
 
 function App() {
   const [user, setUser] = useState('');
+  const [logged, setLogged] = useState(false);
   return (
     <div className="App">
       <NavBar user={user} />
@@ -15,7 +16,14 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route
           path="/manage"
-          element={<Manage setUser={setUser} user={user} />}
+          element={
+            <Manage
+              setUser={setUser}
+              user={user}
+              logged={logged}
+              setLogged={setLogged}
+            />
+          }
         />
       </Routes>
       <Footer />

@@ -9,10 +9,11 @@ import '../styles/manage.css';
 type Props = {
   setUser: (param: string) => void;
   user: string;
+  setLogged: (param: boolean) => void;
+  logged: boolean;
 };
 
-function Manage({ user, setUser }: Props) {
-  const [logged, setLogged] = useState(false);
+function Manage({ user, setUser, setLogged, logged }: Props) {
   const [openModal, setOpenModal] = useState(false);
 
   const popup = () => {

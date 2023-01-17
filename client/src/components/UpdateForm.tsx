@@ -51,21 +51,21 @@ function UpdateForm({ logged }: Props) {
         ) : (
           <>
             <label htmlFor="nameUpdate">
-              enter name to update:
+              <p>enter name to update:</p>
               <input
                 {...register('name', { required: true })}
                 id="nameUpdateInput"
               />
             </label>
             <label htmlFor="newName">
-              enter new name:
+              <p>enter new name:</p>
               <input
                 {...register('newName', { required: true })}
                 id="newNameInput"
               />
             </label>
             <label htmlFor="newImage">
-              upload new img:
+              <p>upload new img:</p>
               <input
                 {...register('image', { required: true })}
                 id="newImageInput"

@@ -49,7 +49,7 @@ function SearchFrom() {
           <ClipLoader color="red" loading={loading} size={100} />
         ) : (
           <label htmlFor="searchInput">
-            Search product
+            <p>Search product</p>
             <input {...register('name', { required: true })} id="searchInput" />
           </label>
         )}
@@ -57,7 +57,7 @@ function SearchFrom() {
         <div className="displayArea">
           {found && fetchedData ? (
             <div className="previewArea">
-              <h3>Item preview</h3>
+              <p>Item preview</p>
               <Result
                 image={fetchedData.imageLink}
                 itemName={fetchedData.name}

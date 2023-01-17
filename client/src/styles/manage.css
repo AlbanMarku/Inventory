@@ -1,17 +1,7 @@
 .Manage {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-
-.forms {
-    flex: 1;
-    width: 100%;
-    display: flex;
     flex-direction: column;
     align-items: center;
-    border: solid black;
 }
 
 .loginArea {
@@ -19,28 +9,73 @@
 }
 
 .formArea {
-    display: flex;
-    flex-direction: column;
     flex: 1;
-    justify-content: center; 
-    align-items: center;
-    gap: 20px;
-    width: 100%;
+    border: solid red;
+    display: grid;
+    grid-template-areas: 
+    "upload search"
+    "update search"
+    "delete search";
+    grid-template-rows: 1fr 2fr 0.5fr;
+    grid-template-columns: 3fr 2fr;
+    width: 70%;
 }
 
-.Manage form {
-    width: 1000px;
+.SubmitForm {
     border: solid green;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    gap: 20px;
+    grid-area: upload;
 }
 
-.Manage label {
+.SubmitForm form, .UpdateForm form, .DeleteForm form, .SearchForm form {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    gap: 10px;
+    height: 100%;
+    text-align: center;
+    gap: 20px;
+    padding: 10px;
+}
+
+.SearchForm form {
+    justify-content: flex-start;
+}
+
+.SubmitForm p, .UpdateForm p, .DeleteForm p, .SearchForm p {
+    margin: 20px;
+    font-size: 1.3rem;
+}
+
+.SubmitForm input, .UpdateForm input, .DeleteForm input, .SearchForm input {
+    width: 300px;
+    padding: 5px;
+}
+
+.SubmitForm button, .UpdateForm button, .SearchForm button {
+    padding: 10px;
+    width: 100px;
+}
+
+.SearchForm {
+    border: solid blue;
+    grid-area: search;
+}
+
+.UpdateForm {
+    border: solid yellow;
+    grid-area: update;
+}
+
+.DeleteForm {
+    border: solid orange;
+    grid-area: delete;
+}
+
+.DeleteForm button {
+    padding: 10px;
+    width: 110px;
+}
+
+.SubmitForm form {
+    justify-content: flex-start;
 }

@@ -47,11 +47,11 @@ function SubmitForm({ logged }: Props) {
         ) : (
           <>
             <label htmlFor="nameInput">
-              <p>Enter name:</p>
+              <p id="nameHeader">Enter name:</p>
               <input {...register('name', { required: true })} id="nameInput" />
             </label>
-            <label htmlFor="pictureInput">
-              <p>Upload file</p>
+            <label id="pictureInput" htmlFor="pictureInput">
+              <p>Upload file:</p>
               <input
                 {...register('image', { required: true })}
                 id="pictureInput"

@@ -37,7 +37,7 @@ function DeleteForm({ logged }: Props) {
           <ClipLoader color="red" loading={loading} size={100} />
         ) : (
           <label htmlFor="nameInput">
-            enter delete name:
+            <p>enter delete name:</p>
             <input {...register('name', { required: true })} id="nameInput" />
           </label>
         )}

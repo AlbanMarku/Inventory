@@ -21,6 +21,6 @@
 
 @media screen and (max-width: 845px) {
     .App {
-        grid-template-rows: 50px 1fr 50px;
+        grid-template-rows: 70px 1fr 50px;
     }
   }

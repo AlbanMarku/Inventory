@@ -1,20 +1,14 @@
-nav {
+.desktopNav {
     border: solid green;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0px 20px;
+    height: 100%;
 }
 
-ul {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    list-style-position: inside;
-    padding: 0;
-    gap: 20px;
-    flex: 0;
-    min-width: 200px;
+.mobileNav {
+    display: none;
 }
 
 li {
@@ -23,17 +17,81 @@ li {
 
 .link {
     text-decoration: none;
-    color: black;
 }
 
-nav div {
-    flex: 0;
-    min-width: 200px;
-    text-align: center;
-}
+@media screen and (max-width: 845px) {
 
-nav h1 {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-}
+    .desktopNav {
+        justify-content: space-between;
+        padding: 0;
+    }
+
+    .desktopNav div {
+        min-width: 100px;
+    }
+
+    .hamburger {
+        display: block;
+        z-index: 3;
+    }
+
+    .menu-list {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8); /* Creates an overlay effect */
+        display: none;
+        z-index: 2;
+        padding: 0;
+      }
+
+      .menu-list.open {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        font-size: 1.4rem;
+        padding: 0;
+      }
+
+      .link {
+        color: white;
+      }
+  }
+
+  @media screen and (min-width: 846px) {
+    .menu-list {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        list-style-position: inside;
+        padding: 0;
+        gap: 20px;
+        flex: 0;
+        min-width: 200px;
+    }
+
+    .desktopNav div {
+        flex: 0;
+        min-width: 200px;
+        text-align: center;
+    }
+    
+    .desktopNav h1 {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+    }
+
+    .hamburger {
+        display: none;
+    }
+
+    .link {
+        color: black;
+    }
+
+  }

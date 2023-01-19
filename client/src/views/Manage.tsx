@@ -37,11 +37,11 @@ function Manage({ user, setUser, setLogged, logged }: Props) {
           />
         </div>
         {user ? (
-          <button id="logoutBtn" type="button" onClick={logout}>
+          <button className="loginBtn" type="button" onClick={logout}>
             Logout
           </button>
         ) : (
-          <button id="loginBtn" type="button" onClick={popup}>
+          <button className="loginBtn" type="button" onClick={popup}>
             Login
           </button>
         )}

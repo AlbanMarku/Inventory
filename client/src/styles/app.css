@@ -15,4 +15,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 0px 20px;
 }
+
+
+@media screen and (max-width: 845px) {
+    .App {
+        grid-template-rows: 50px 1fr 50px;
+    }
+  }

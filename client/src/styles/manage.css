@@ -8,9 +8,12 @@
     flex: 0;
 }
 
+.loginBtn {
+    padding: 10px;
+}
+
 .formArea {
     flex: 1;
-    border: solid red;
     display: grid;
     grid-template-areas: 
     "upload search"
@@ -19,10 +22,11 @@
     grid-template-rows: 1fr 2fr 0.5fr;
     grid-template-columns: 3fr 2fr;
     width: 70%;
+    gap: 10px;
+    margin: 10px;
 }
 
 .SubmitForm {
-    border: solid green;
     grid-area: upload;
 }
 
@@ -35,6 +39,8 @@
     text-align: center;
     gap: 20px;
     padding: 10px;
+    border-radius: 5px;
+    background-color: rgba(169, 169, 169, 0.479);
 }
 
 .SearchForm form {
@@ -57,18 +63,16 @@
 }
 
 .SearchForm {
-    border: solid blue;
     grid-area: search;
 }
 
 .UpdateForm {
-    border: solid yellow;
     grid-area: update;
 }
 
 .DeleteForm {
-    border: solid orange;
     grid-area: delete;
+
 }
 
 .DeleteForm button {
@@ -79,3 +83,10 @@
 .SubmitForm form {
     justify-content: flex-start;
 }
+
+@media screen and (max-width: 845px) {
+    .formArea {
+        display: flex;
+        flex-direction: column;
+    }
+  }

@@ -81,10 +81,12 @@ function Modal({ openModal, setLogged, setUser, popup }: Props) {
                     type="password"
                   />
                 </label>
-                <button type="submit">Login</button>
-                <button type="button" onClick={popup}>
-                  Close
-                </button>
+                <div className="submitBtns">
+                  <button type="submit">Login</button>
+                  <button type="button" onClick={popup}>
+                    Close
+                  </button>
+                </div>
               </form>
               {errorMsg ? (
                 <p>{errorMsg}</p>

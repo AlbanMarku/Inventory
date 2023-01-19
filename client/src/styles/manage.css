@@ -89,4 +89,9 @@
         display: flex;
         flex-direction: column;
     }
+
+    .SubmitForm input, .UpdateForm input, .DeleteForm input, .SearchForm input {
+        width: 200px;
+        padding: 5px;
+    }
   }

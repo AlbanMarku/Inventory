@@ -5,3 +5,7 @@ footer {
     background-color: rgba(169, 169, 169, 0.678);
     box-shadow: 0px -4px 4px rgba(0, 0, 0, 0.25);
 }
+
+footer img {
+    height: 40px;
+}

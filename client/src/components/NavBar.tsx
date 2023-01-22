@@ -27,7 +27,9 @@ function NavBar({ user }: Props) {
     <nav>
       <div className="navTitle">
         <h1>Inventory</h1>
-        <div>{user ? <p>Welcome {user}</p> : <p>Not signed in</p>}</div>
+        <div id="welcomeStatus">
+          {user ? <p>Welcome {user}</p> : <p>Not signed in</p>}
+        </div>
       </div>
       <ul className={`menu-list ${menuOpen ? 'open' : ''}`}>
         <li>
@@ -47,7 +49,9 @@ function NavBar({ user }: Props) {
         className={`hamburger ${menuOpen ? 'active' : ''}`}
         type="button"
       >
-        p
+        <div className="line" />
+        <div className="line" />
+        <div className="line" />
       </button>
     </nav>
   );

@@ -25,15 +25,30 @@ li {
     nav {
         justify-content: space-between;
         padding: 0;
+        padding: 0px 10px;
     }
 
-    nav div {
+    nav #welcomeStatus {
         min-width: 100px;
     }
 
     .hamburger {
-        display: block;
         z-index: 3;
+        height: 25px;
+        width: 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        border: none;
+        background: transparent;
+    }
+
+    .hamburger .line {
+        height: 3px;
+        width: 30px;
+        background-color: #000;
     }
 
     .menu-list {

@@ -8,13 +8,20 @@ type Props = {
 
 function NavBar({ user }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
-
+  let scrollToggle = 'initial';
   const handleToggle = () => {
     setMenuOpen(!menuOpen);
+    if (menuOpen) {
+      scrollToggle = 'initial';
+    } else {
+      scrollToggle = 'hidden';
+    }
+    document.body.style.overflow = scrollToggle;
   };
 
   const closeMenu = () => {
     setMenuOpen(false);
+    document.body.style.overflow = 'initial';
   };
   return (
     <nav>

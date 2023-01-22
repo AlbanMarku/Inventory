@@ -10,6 +10,10 @@ function ItemCard({ name, image }: Props) {
     <div className="ItemCard">
       <h2>{name}</h2>
       <img src={image} alt="Product preview" />
+      <p>
+        Proof of concept. Real product would have properly scaled images and
+        item information.
+      </p>
     </div>
   );
 }

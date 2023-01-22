@@ -9,6 +9,7 @@
     display: grid;
     background-color: rgb(239, 245, 245);
     grid-template-rows: 100px 1fr 50px;
+
 }
 
 .Home {
